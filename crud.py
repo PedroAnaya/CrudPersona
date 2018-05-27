@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_mysqldb import MySQL
 from datetime import datetime
-
+ 
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -35,8 +35,9 @@ def update():
     strNombre = request.form['strNombre']
     strApaterno = request.form['strApaterno']
     strAmaterno = request.form['strAmaterno']
+    dtefechaNacimiento =request.form['dtefechaNacimiento']
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE Persona SET strNombre=%s, strApaterno=%s, strAmaterno=%s WHERE id=%s", (strNombre,strApaterno,strAmaterno,id_data,))
+    cur.execute("UPDATE Persona SET strNombre=%s, strApaterno=%s, strAmaterno=%s, dtefechaNacimiento=%s WHERE id=%s", (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,id_data,))
     mysql.connection.commit()
     return redirect(url_for('home'))
 
