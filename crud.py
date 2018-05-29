@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_mysqldb import MySQL
 from raven.contrib.flask import Sentry
-from datetime import datetime
 
 app = Flask(__name__)
 
@@ -19,7 +18,6 @@ if not app.debug:
     app.logger.addHandler(mail_handler)
 
 
-
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'pedro0319'
@@ -32,16 +30,21 @@ def home():
     cur.execute("SELECT * FROM Persona")
     rv = cur.fetchall()
     cur.close()
-    return render_template('home.html', Persona=rv)
+    cur1 = mysql.connection.cursor()
+    cur1.execute("SELECT * FROM Sexo")
+    rv2 = cur1.fetchall()
+    cur1.close()
+    return render_template('home.html', Persona=rv, Sexo=rv2)
 
 @app.route('/simpan',methods=["POST"])
 def simpan():
     strNombre = request.form['strNombre']
     strApaterno = request.form['strApaterno']
     strAmaterno = request.form['strAmaterno']
+    idSexo = request.form['idSexo']
     dtefechaNacimiento =request.form['dtefechaNacimiento']
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO Persona (strNombre,strApaterno,strAmaterno,dtefechaNacimiento) VALUES (%s,%s,%s,%s) ",(strNombre,strApaterno,strAmaterno,dtefechaNacimiento))
+    cur.execute("INSERT INTO Persona (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo) VALUES (%s,%s,%s,%s,%s) ",(strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo))
     mysql.connection.commit()
     return redirect(url_for('home'))
 
@@ -51,9 +54,10 @@ def update():
     strNombre = request.form['strNombre']
     strApaterno = request.form['strApaterno']
     strAmaterno = request.form['strAmaterno']
-    dtefechaNacimiento =request.form['dtefechaNacimiento']
+    dtefechaNacimiento = request.form['dtefechaNacimiento']
+    idSexo = request.form['idSexo']
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE Persona SET strNombre=%s, strApaterno=%s, strAmaterno=%s, dtefechaNacimiento=%s WHERE id=%s", (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,id_data,))
+    cur.execute("UPDATE Persona SET strNombre=%s, strApaterno=%s, strAmaterno=%s, dtefechaNacimiento=%s, idSexo=%s WHERE id=%s", (strNombre,strApaterno,strAmaterno,dtefechaNacimiento,idSexo,id_data,))
     mysql.connection.commit()
     return redirect(url_for('home'))
 
@@ -63,6 +67,7 @@ def hapus(id_data):
     cur.execute("DELETE FROM Persona WHERE id=%s", (id_data,))
     mysql.connection.commit()
     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
