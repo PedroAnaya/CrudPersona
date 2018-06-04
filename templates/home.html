@@ -8,15 +8,15 @@
 <div class="container">
    <div class="starter-template">
       <h1>Persona</h1>
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar</button>
+      <a href="/create" class="btn btn-info">Agregar</a>
       <table class="table table-striped">
          <thead>
             <tr>
-               <td>No.</td>
                <td>Nombre</td>
                 <td>Apellido Paterno</td>
                  <td>Apellido Materno</td>
                   <td>Fecha de Nacimiento</td>
+                  <td>Sexo</td>
                <td>Botones</td>
             </tr>
          </thead>
@@ -34,69 +34,11 @@
                    <td>MUJER</td>
                  {% endif %}  
                <td>
-                  <a href="#!" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit{{ row.0 }}" >Editar</a>
+                 <a href="/update/{{ row.0 }}" class="btn btn-warning btn-xs">Editar</a>
                   <a href="/hapus/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('¿Desea eliminar el Registros?')">Eliminar</a>
+                   <a href="/pdf/{{ row.0 }}/{{ row.1 }}/{{ row.2 }}/{{ row.3 }}/{{ row.4 }}/{{ row.5 }}" class="btn btn-success btn-xs">PDF</a>
                </td>
             </tr>
-            <!-- Modal -->
-
-
-            <div id="modalEdit{{ row.0 }}" class="modal fade" role="dialog">
-               <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Editar Persona</h4>
-                     </div>
-                     <div class="modal-body">
-                        <form action="{{ url_for('update') }}" method="POST">
-                           <div class="form-group">
-                           <label>Nombre:</label>
-                              <input type="hidden" name="id" value="{{ row.0 }}">
-                              <input type="text" class="form-control" name="strNombre" value="{{ row.1 }}" required/>
-                           </div>
-                           <div class="form-group">
-                              <label>Apellido Paterno:</label>
-                              <input type="hidden" name="id" value="{{ row.0 }}">
-                              <input type="text" class="form-control" name="strApaterno" value="{{ row.2 }}" required/>
-                           </div>
-                           <div class="form-group">
-                              <label>Apellido Materno:</label>
-                              <input type="hidden" name="id" value="{{ row.0 }}">
-                              <input type="text" class="form-control" name="strAmaterno" value="{{ row.3 }}" required/>
-                           </div>
-                           <div class="form-group">
-                              <label>Fecha Nacimiento:</label>
-                              <input type="hidden" name="id" value="{{ row.0 }}">
-                              <input type="date" class="form-control" name="dtefechaNacimiento" value="{{ row.4 }}" required/>
-                           </div>
-
-                           <div class="form-group">
-                               <label for="exampleFormControlSelect1">Sexo</label>
-                               <input type="hidden" name="id" value="{{ row.0 }}">
-                               <select class="form-control" id="exampleFormControlSelect1" name="idSexo"  value="{{ row.5 }}" >
-                                  {% if row.5 == 1 %}
-                                 <option value="{{ 1 }}">HOMBRE</option>
-                                 <option value="{{ 2 }}">MUJER</option>
-                                 {% endif %}  
-                                 {% if row.5 == 2 %}
-                                 <option value="{{ 2 }}">MUJER</option>
-                                 <option value="{{ 1 }}">HOMBRE</option>
-                                 {% endif %} 
-                               </select>
-                            </div>                       
-
-                           <div class="form-group">
-                              <button class="btn btn-warning" type="submit">Aceptar</button>
-                           </div>
-                        </form>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
 {% else %}
             <tr>
                <td colspan="5">No hay Registros</td>
@@ -108,55 +50,6 @@
 </div>
 
 <!-- Modal -->
-
-
-<div id="myModal" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Agregar Persona</h4>
-         </div>
-         <div class="modal-body">
-            <form action="{{ url_for('simpan') }}" method="POST">
-               <div class="form-group">
-                  <label>Nombre:</label>
-                  <input type="text" class="form-control" name="strNombre" required/>
-               </div>
-                <div class="form-group">
-                  <label>Apellido Paterno:</label>
-                  <input type="text" class="form-control" name="strApaterno" required/>
-               </div>
-                <div class="form-group">
-                  <label>Apellido Materno:</label>
-                  <input type="text" class="form-control" name="strAmaterno" required/>
-               </div>
-                <div class="form-group">
-                  <label>Feha Nacimiento:</label>
-                  <input type="date" class="form-control" name="dtefechaNacimiento" required/>
-               </div>        
-                   <div class="form-group">
-                   <label for="exampleFormControlSelect1">Sexo</label>
-                   <select class="form-control" id="exampleFormControlSelect1" name="idSexo" >
-                      {% for row in Sexo %}
-                     <option value="{{ row.0 }}">{{ row.1 }}</option>
-                      {% endfor %}    
-                    
-                   </select>
-                 </div>
-                  <br>
-
-               <div class="form-group">
-                  <button class="btn btn-primary" type="sbumit">Aceptar</button>
-               </div>
-            </form>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-         </div>
-      </div>
-   </div>
-</div>
 <!-- /.container -->
 
 
