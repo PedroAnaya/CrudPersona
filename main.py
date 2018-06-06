@@ -8,6 +8,7 @@ from io import StringIO
 from io import BytesIO
 from reportlab.pdfgen import canvas
 
+
 app = Flask(__name__)
 
 sentry = Sentry(app, dsn='https://34b4dd07263949959a499ac3a98ea9d2:bba044ffa89544af98017e588e66e975@sentry.io/1210257')
